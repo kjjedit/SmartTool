@@ -1,0 +1,569 @@
+body {
+    background-color: #121212;
+    margin: 0; 
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: white;
+}
+
+#app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 15px;
+    background: transparent;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.round-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.round-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.round-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.round-btn:active {
+    transform: scale(0.95);
+}
+
+.edit-round-btn {
+    background: linear-gradient(135deg, #ff9500 0%, #ff6b00 100%);
+    color: white;
+}
+
+.settings-round-btn {
+    background: linear-gradient(135deg, #5ac8fa 0%, #007aff 100%);
+    color: white;
+}
+
+.edit-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.edit-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.panel-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    display: block;
+    width: 100%;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(36px, 1fr)); 
+    grid-auto-rows: min-content; 
+    gap: 12px; 
+    padding: 14px;
+    
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: auto !important; 
+    max-height: none !important;
+    box-sizing: border-box;
+}
+
+.grid-cell {
+    aspect-ratio: 1 / 1 !important;
+    border-radius: clamp(10px, 5vw, 18px); 
+    transition: all 0.2s;
+}
+
+.edit-visible { 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px dashed rgba(255, 255, 255, 0.15); 
+    border-radius: clamp(10px, 5vw, 18px); 
+}
+
+.element {
+    box-sizing: border-box;
+    border-radius: clamp(8px, 4vw, 18px); 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    color: white; 
+    font-weight: bold; 
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.element:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.graph:hover,
+.anchor:hover,
+.align:hover {
+    transform: none !important;
+    filter: none !important;
+}
+
+
+.shortcut-label {
+    font-size: clamp(11px, 4.5vw, 19px);
+    font-weight: 600;
+    text-align: center;
+    word-break: break-word;
+    max-width: 90%;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shortcut { 
+    background: linear-gradient(135deg, #3a3a3c 0%, #2c2c2e 100%);
+    box-shadow: 0 4px 15px rgba(58, 58, 60, 0.4);
+    border-radius: clamp(10px, 5vw, 18px); 
+}
+
+.shortcut:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.settings {
+    background: linear-gradient(135deg, #5856d6 0%, #3f51b5 100%);
+    box-shadow: 0 4px 15px rgba(88, 86, 214, 0.4);
+    border-radius: 22%;
+}
+
+.graph, .anchor, .align { 
+    background: #1c1c1e; 
+    border: 2px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    padding: 0;
+    border-radius: clamp(12px, 5vw, 22px);
+    overflow: visible;
+}
+
+
+.graph-editor-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-canvas {
+    flex: 1;
+    width: 100%;
+    cursor: crosshair;
+}
+
+.graph-controls {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    justify-content: center;
+}
+
+.graph-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.graph-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.graph-btn.active {
+    background: #5ac8fa;
+    border-color: #5ac8fa;
+}
+
+.graph-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.shaking {
+    animation: shake 0.3s infinite ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: rotate(-1deg); }
+    50% { transform: rotate(1.5deg); }
+    100% { transform: rotate(-1deg); }
+}
+
+.delete-badge, .config-badge, .resize-badge {
+    width: clamp(18px, 6vw, 24px) !important; 
+    height: clamp(18px, 6vw, 24px) !important;
+    font-size: clamp(10px, 4vw, 18px) !important;
+    z-index: 10;
+    position: absolute;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.delete-badge { 
+    top: -6px; 
+    left: -6px; 
+    background: #ff3b30; 
+    color: white; 
+    font-weight: bold; 
+}
+
+.config-badge { 
+    bottom: -6px; 
+    right: -6px; 
+    background: #3b9aff; 
+    color: white; 
+    line-height: 1; 
+}
+
+.resize-badge { 
+    bottom: -6px; 
+    right: -6px; 
+    background: #30d158; 
+    color: white; 
+    font-weight: bold; 
+}
+
+.delete-badge:hover {
+    background: white;
+    color: #ff3b30;
+}
+
+.config-badge:hover {
+    background: white;
+    color: #3b9aff;
+}
+
+.resize-badge:hover {
+    background: white;
+    color: #30d158;
+}
+
+.graph-btn-container button {
+    font-size: clamp(8px, 3.5vw, 13px) !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    transition: all 0.2s;
+}
+
+.graph-btn-container button:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.add-buttons {
+    padding: 15px 10px;
+    background: rgba(28, 28, 30, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px 25px 0 0;
+}
+
+.add-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.button-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.add-btn {
+    flex: 1;
+    min-width: 0; 
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 5px;
+    border-radius: 999px; 
+    font-size: clamp(10px, 2.5vw, 12px);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.add-btn svg {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+}
+
+.add-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.panel-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.panel-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.panel-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.panel-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.config-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.config-modal-content {
+    background: #1c1c1e;
+    border-radius: 30px;
+    padding: 30px;
+    width: calc(100% - 40px) !important; 
+    max-width: 250px; 
+    min-width: 180px; 
+    box-sizing: border-box;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.config-modal-content h3 {
+    margin: 0 0 16px 0;
+    font-size: 17px;
+    color: white;
+    text-align: center;
+}
+
+.config-modal-content label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.config-modal-content select,
+.config-modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    color: white;
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.config-modal-content select:focus,
+.config-modal-content input:focus {
+    outline: none;
+    border-color: #5ac8fa;
+    box-shadow: 0 0 5px rgba(90, 200, 250, 0.2);
+}
+
+.config-modal-content select:hover,
+.config-modal-content input[type="text"]:hover {
+    filter: brightness(1.2);
+}
+
+.config-modal-content select option {
+    background: #1c1c1e;
+    color: white;
+    padding: 10px;
+}
+
+.file-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.file-input-group input {
+    flex: 1;
+}
+
+.browse-btn {
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid #5ac8fa; 
+    border-radius: 999px;
+    color: #5ac8fa;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    box-shadow: 0 0 5px rgba(90, 200, 250, 0.2);
+}
+
+.browse-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.15); 
+    background: rgba(90, 200, 250, 0.15);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 12px 5px;
+    border: none;
+    border-radius: 999px;
+    font-size: clamp(11px, 3.5vw, 14px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.cancel-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.4); 
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.save-btn {
+    background: white;
+    color: #1c1c1e;
+}
+
+.save-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.signature-dot {
+    background-color: #5ac8fa !important;
+    box-shadow: 0 0 8px rgba(90, 200, 250, 0.6);
+}
+
+.signature-arrow {
+    color: #5ac8fa !important;
+    text-shadow: 0 0 8px rgba(90, 200, 250, 0.6);
+}
+
+@keyframes blueFlash {
+    0% { background-color: #3a3a3c; color: white; }
+    20% { background-color: #5ac8fa; color: #ffffff; box-shadow: 0 0 15px rgba(90, 200, 250, 0.8); }
+    100% { background-color: #3a3a3c; color:white; }
+}
+
+.flash-active {
+    animation: blueFlash 0.4s ease-out;
+}
+
+.align-grid-btn {
+    background: #3a3a3c !important;
+    border: none;
+    border-radius: clamp(4px, 1vw, 6px);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.align-grid-btn:hover {
+    background-color: #5ac8fa !important;
+    box-shadow: 0 0 15px rgba(90, 200, 250, 0.8);
+    transform: scale(1.05);
+}
