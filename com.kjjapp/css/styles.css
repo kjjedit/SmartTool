@@ -1,0 +1,852 @@
+/* ==========================================================================
+   1. FONTS & ROOT
+   ========================================================================== */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('ressources/Montserrat.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* ==========================================================================
+   2. GLOBAL STYLES
+   ========================================================================== */
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    background-color: #0f0f0f;
+    color: #fff;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+#app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.config-modal-content input[type="text"], 
+.config-modal-content select {
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: text;
+}
+
+/* ==========================================================================
+   3. LAYOUT & HEADER
+   ========================================================================== */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 15px 22px 10px 22px; 
+    background: transparent;
+    position: relative;
+    z-index: 300;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0; 
+}
+
+.round-btn {
+    width: 42px;  
+    height: 42px; 
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.round-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.round-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.round-btn:active {
+    transform: scale(0.95);
+}
+
+.add-round-btn {
+    margin-right: auto !important; 
+}
+
+.edit-btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+/* ==========================================================================
+   4. GRID SYSTEM
+   ========================================================================== */
+.panel-container {
+    flex: 1;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(36px, 1fr)); 
+    grid-auto-rows: min-content; 
+    gap: 12px; 
+    padding: 14px;
+    
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: auto !important; 
+    max-height: none !important;
+    box-sizing: border-box;
+}
+
+.grid-cell {
+    aspect-ratio: 1 / 1 !important;
+    border-radius: clamp(10px, 5vw, 18px); 
+    transition: all 0.2s;
+}
+
+.edit-visible { 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px dashed rgba(255, 255, 255, 0.15); 
+    border-radius: clamp(10px, 5vw, 18px); 
+}
+
+/* ==========================================================================
+   5. WIDGETS BASE STYLES
+   ========================================================================== */
+.element {
+    box-sizing: border-box;
+    border-radius: clamp(8px, 4vw, 18px); 
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    color: white; 
+    font-weight: 600; 
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.element:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.graph:hover,.anchor:hover {
+    transform: none !important;
+    filter: none !important;
+}
+
+/* ==========================================================================
+   6. SHORTCUT WIDGET
+   ========================================================================== */
+.shortcut { 
+    background: linear-gradient(135deg, #3a3a3c 0%, #2c2c2e 100%);
+    box-shadow: 0 4px 15px rgba(58, 58, 60, 0.4);
+    border-radius: clamp(10px, 5vw, 18px); 
+}
+
+.shortcut-label {
+    font-size: clamp(11px, 4.5vw, 19px);
+    font-weight: 900;
+    text-align: center;
+    word-break: break-word;
+    max-width: 90%;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shortcut:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+/* ==========================================================================
+   7. GRAPH WIDGET
+   ========================================================================== */
+.graph, .anchor { 
+    background: #1c1c1e; 
+    border: 2px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    padding: 0;
+    border-radius: clamp(12px, 5vw, 22px);
+    overflow: visible;
+}
+
+.graph-editor-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-canvas {
+    flex: 1;
+    width: 100%;
+    cursor: crosshair;
+}
+
+.graph-controls {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    justify-content: center;
+}
+
+.graph-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.graph-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.graph-btn.active {
+    background: #5ac8fa;
+    border-color: #5ac8fa;
+}
+
+.graph-btn-container button {
+    font-size: clamp(8px, 3.5vw, 13px) !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    transition: all 0.2s;
+}
+
+.graph-btn-container button:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.graph-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   8. ANCHOR WIDGET
+   ========================================================================== */
+.anchor-btn svg g, 
+.anchor-btn svg path {
+    fill: var(--accent) !important;
+    transition: fill 0.2s ease;
+}
+
+.anchor-btn svg {
+    filter: drop-shadow(0 0 3px var(--accent)) !important;
+    transition: filter 0.2s ease;
+}
+
+.anchor-btn:hover {
+    filter: brightness(1.3); 
+    transform: scale(1.02); 
+}
+
+/* ==========================================================================
+   9. EDIT MODE UI (BADGES & SHAKING)
+   ========================================================================== */
+.shaking {
+    animation: shake 0.3s infinite ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: rotate(-1deg); }
+    50% { transform: rotate(1.5deg); }
+    100% { transform: rotate(-1deg); }
+}
+
+.delete-badge, .config-badge, .resize-badge {
+    width: calc(var(--cell-size, 74px) * 0.30) !important;
+    height: calc(var(--cell-size, 74px) * 0.30) !important;
+    font-size: calc(var(--cell-size, 74px) * 0.18) !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    z-index: 10;
+    position: absolute;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.delete-badge { 
+    top: calc(var(--cell-size, 74px) * -0.08);
+    left: calc(var(--cell-size, 74px) * -0.08);
+    background: #ff3b30; 
+    color: white; 
+    font-weight: 600; 
+}
+
+.config-badge { 
+    bottom: calc(var(--cell-size, 74px) * -0.08);
+    right: calc(var(--cell-size, 74px) * -0.08);
+    background: #3b9aff; 
+    color: white; 
+    line-height: 1; 
+}
+
+.resize-badge { 
+    bottom: calc(var(--cell-size, 74px) * -0.08) !important;
+    right: calc(var(--cell-size, 74px) * -0.08) !important;
+    top: auto !important;
+    background: #30d158 !important; 
+    color: white; 
+    font-weight: 600; 
+}
+
+.delete-badge:hover {background: white;color: #ff3b30;}
+.config-badge:hover {background: white;color: #3b9aff;}
+.resize-badge:hover {background: white;color: #30d158;}
+
+/* ==========================================================================
+   10. iOS ADD MENU (BOTTOM DRAWER)
+   ========================================================================== */
+.add-menu-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, #232325 0%, #1a1a1c 100%);
+    border-radius: 22px 22px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 400;
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
+    box-shadow: 0 -6px 40px rgba(0, 0, 0, 0.6);
+    padding: 10px 20px 28px;
+    box-sizing: border-box;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.add-menu-container.open {
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.add-menu-handle {
+    width: 38px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    margin: 0 auto 18px auto;
+}
+
+.add-menu-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+}
+
+.add-list {
+    padding: 0 16px;
+    overflow-y: auto;
+}
+
+.add-list-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 10px;
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-list-item:last-child {
+    border-bottom: none;
+}
+
+.add-list-item:hover {
+    transform: scale(1.03);
+}
+
+.item-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.item-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.item-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.icon-purple { background: #5856D6; }
+.icon-blue   { background: #007AFF; }
+.icon-red    { background: #FF3B30; }
+.icon-orange { background: #ff7b0f; }
+
+
+.add-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.add-btn {
+    flex: 1;
+    min-width: 0; 
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 5px;
+    border-radius: 12px; 
+    font-size: clamp(10px, 2.5vw, 12px);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.add-btn svg {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+}
+
+.add-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.panel-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.panel-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.panel-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.panel-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   11. CONFIGURATION MODAL
+   ========================================================================== */
+.config-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s;
+}
+
+.config-modal-content {
+    background: #1c1c1e;
+    border-radius: 30px;
+    padding: 30px;
+    width: calc(100% - 40px) !important; 
+    max-width: 250px; 
+    min-width: 180px; 
+    box-sizing: border-box;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    animation: slideUp 0.3s ease-out;
+}
+
+.config-modal-content h3 {
+    margin: 0 0 16px 0;
+    font-size: 17px;
+    color: white;
+    text-align: center;
+}
+
+.config-modal-content label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+.config-modal-content select {
+    width: 100%;
+    padding: 10px 40px 10px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: white;
+    font-size: 13px;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22white%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 12px;
+}
+
+.config-modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: white;
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.config-modal-content select:focus,
+.config-modal-content input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.config-modal-content select:hover,
+.config-modal-content input[type="text"]:hover {
+    filter: brightness(1.2);
+}
+
+.config-modal-content select option {
+    background: #1c1c1e;
+    color: white;
+    padding: 10px;
+}
+
+.file-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.file-input-group input {
+    flex: 1;
+}
+
+.browse-btn {
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid var(--accent);
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.browse-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2); 
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 12px 5px;
+    border: none;
+    border-radius: 50px;
+    font-size: clamp(11px, 3.5vw, 14px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.cancel-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.4); 
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.save-btn {
+    background: white;
+    color: #1c1c1e;
+}
+
+.save-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.signature-dot {
+    background-color: #5ac8fa !important;
+    box-shadow: 0 0 8px rgba(90, 200, 250, 0.6);
+}
+
+.signature-arrow {
+    color: #5ac8fa !important;
+    text-shadow: 0 0 8px rgba(90, 200, 250, 0.6);
+}
+/* ==========================================================================
+   12. ANIMATIONS & UTILS
+   ========================================================================== */
+@keyframes blueFlash {
+    0% { background-color: #3a3a3c; color: white; }
+    20% { 
+        background-color: var(--accent); 
+        color: #ffffff; 
+        box-shadow: 0 0 15px var(--accent); 
+    }
+    100% { background-color: #3a3a3c; color: white; }
+}
+
+.flash-active {
+    animation: blueFlash 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+/* ==========================================================================
+   ADDITIONS
+   ========================================================================== */
+
+/* Preset rows — hide scrollbar visually */
+.preset-row::-webkit-scrollbar { display: none; }
+.preset-row { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Custom select dropdown in config modal */
+.csl-option:hover { background: rgba(255,255,255,0.12) !important; }
+#customSelectList::-webkit-scrollbar { width: 4px; }
+#customSelectList::-webkit-scrollbar-track { background: transparent; }
+#customSelectList::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+/* Config modal — select scrollable sur petits panneaux */
+.config-modal-content select {
+    max-height: 40vh;
+}
+.config-modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+    letter-spacing: 1px;
+}
+
+/* Color preview bar hover */
+#colorPreviewBar:hover { border-color: var(--accent, #5ac8fa) !important; }
+
+/* Settings drawer */
+.settings-drawer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1c1c1e;
+    border-radius: 24px 24px 0 0;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-bottom: none;
+    z-index: 500;
+    padding: 12px 20px 24px;
+    box-sizing: border-box;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+}
+.settings-drawer.open {
+    transform: translateY(0);
+}
+.settings-handle {
+    width: 36px;
+    height: 5px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    margin: 0 auto 16px auto;
+}
+.settings-header {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: 16px;
+}
+.settings-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.settings-row label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 600;
+}
+.settings-row input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent, #5ac8fa);
+}
+.color-swatches {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.color-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+}
+.color-swatch.active, .color-swatch:hover {
+    border-color: white;
+    transform: scale(1.1);
+}
+
+/* Drag overlay (zone de drag transparente sur le widget) */
+.drag-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    cursor: grab;
+    border-radius: inherit;
+}
+.drag-overlay:active { cursor: grabbing; }
+
+/* Trends widget */
+.element.trends {
+    background: #1c1c1e;
+    border: 2px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    border-radius: clamp(12px, 5vw, 22px);
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+    cursor: default !important;
+}
+.element.trends:hover {
+    transform: none !important;
+    filter: none !important;
+}
+.trends-list::-webkit-scrollbar { display: none; }
+
+.trend-row {
+    background: linear-gradient(135deg, #3a3a3c 0%, #2c2c2e 100%) !important;
+    border: none !important;
+}
+
+.trend-row:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.trend-play-btn {
+    background: #1c1c1e !important;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.icon-indigo { background: #5e5ce6; }
