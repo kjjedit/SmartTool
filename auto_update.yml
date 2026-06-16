@@ -1,0 +1,32 @@
+name: Auto Update Library
+
+on:
+  push:
+    paths:
+      - 'sounds/**'
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Exécution du script
+        run: node update_library.js
+
+      - name: Sauvegarde sur le dépôt
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add config/library.json
+          git commit -m "🤖 Ajout de nouveaux sons" || echo "Rien à mettre à jour"
+          git push
