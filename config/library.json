@@ -1,14 +1,2 @@
 [
-  {
-    "id": "touch_it",
-    "title": "Touch It",
-    "tags": ["trending", "dance", "hype", "transition"],
-    "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/Touch%20it.wav"
-  },
-  {
-    "id": "pick_up_the_phone",
-    "title": "Pick Up The Phone",
-    "tags": ["chill", "trap", "aesthetic"],
-    "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/Pick%20up%20the%20phone.wav"
-  }
 ]
