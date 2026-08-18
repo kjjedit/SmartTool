@@ -5,11 +5,6 @@
     "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/Na%20Na%20-%20looped.wav"
   },
   {
-    "id": "touch_it",
-    "title": "Touch It",
-    "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/Touch%20It.wav"
-  },
-  {
     "id": "everyday___overlapped",
     "title": "everyday - overlapped",
     "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/everyday%20-%20overlapped.mp3"
@@ -18,5 +13,10 @@
     "id": "everyday___slowed___overlapped",
     "title": "everyday - slowed & overlapped",
     "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/everyday%20-%20slowed%20%26%20overlapped.mp3"
+  },
+  {
+    "id": "touch_it",
+    "title": "touch it",
+    "url": "https://raw.githubusercontent.com/kjjedit/SmartTool/main/sounds/touch%20it.wav"
   }
 ]
